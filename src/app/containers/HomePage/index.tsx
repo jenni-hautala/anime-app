@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import animeService from '../../services/animeService';
 
 interface IHomePageProps {
 
@@ -14,7 +15,21 @@ const Container = styled.div`
 `;
 
 export const HomePage = (props: IHomePageProps) => {
-  return <Container>
-    <h1>Hot Anime</h1>
-  </Container>
+  const fetchAnimePage = async () => {
+    const animePage = await animeService.getAnimePage(0, 5).catch((error) => {
+      console.log("Error: ", error);
+    });
+
+    console.log("Anime page:", animePage);
+  }
+
+  useEffect(() => {
+    fetchAnimePage();
+  }, []);
+
+  return (
+    <Container>
+      <h1>Hot Anime</h1>
+    </Container>
+  );
 };
